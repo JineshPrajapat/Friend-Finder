@@ -39,12 +39,16 @@ export function Signup(username, fullName, password, confirmPassword, navigate) 
 
                 if (status === 409) {
                     console.log(status,":User Already exists");
+                    toast.info("User Already exists")
                 } else if (status === 403) {
                     console.log("All fields are required");
+                    toast.info("All fields are required")
                 } else if (status === 402) {
                     console.log("Password does not match");
+                    toast.info("Password does not match")
                 } else {
                     console.log("Error occurred:", message || "Something went wrong");
+                    toast.info("Network error")
                 }
             } else {
                 console.log("Network error or unknown error", err.message);
@@ -87,8 +91,12 @@ export function Login(username, password){
                 else if(err.status === 402){
                     console.log("Password do not match.");
                 }
+                else if(err.status === 401){
+                    console.log("User not registered!");
+                    window.location.url = "/";
+                }
                 else{
-                    console.log("Error occurred:", err.response.data.message )
+                    console.log("Error occurred:", err )
                 }
             }
             else{

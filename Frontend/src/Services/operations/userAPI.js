@@ -101,7 +101,6 @@ export function getAllFriend(token) {
 
 export function getAllUser(token) {
     return async (dispatch) => {
-        dispatch(setLoading(true));
         try {
             const response = await apiConnector({
                 method: "GET",
@@ -118,9 +117,7 @@ export function getAllUser(token) {
         }
         catch (err) {
             console.log("Network error or unknown error", err.message);
-
         }
-        dispatch(setLoading(false));
     }
 }
 
@@ -143,7 +140,7 @@ export function sendFriendRequest(recieverID, token) {
             if (response.status === 200 && response.data.success) {
                 console.log("requeste added")
                 toast.success("Friend request sent.")
-                // dispatch(setAllUsers(result));
+                getAllUser(token);
             }
 
             console.log("sendFRiendRequest response", response)
@@ -219,6 +216,8 @@ export function acceptFriendRequest(senderID, token) {
             if (response.status === 200 && response.data.success) {
                 console.log("friend Request accepted");
                 toast.success("Friend request accepted.");
+                getAllUser(token);
+                getAllRequestRecieved(token);
             }
             console.log("accepct Friend Request response", response)
         }
@@ -248,6 +247,8 @@ export function rejectFriendRequest(senderID, token) {
             if (response.status === 200 && response.data.success) {
                 console.log("reject friend Request successfully");
                 toast.success("Request Rejected");
+                getAllUser(token);
+                getAllRequestRecieved(token);
             }
             console.log("accepct Friend Request response", response)
         }
@@ -279,6 +280,7 @@ export function withdrawRequest(recieverID, token) {
                 // let result = response.data.allUsers;
                 console.log("withdran request made");
                 getAllRequestSent(token);
+                getAllFriend(token);
                 toast.success("Request Withdrawn.")
             }
             console.log("withdraw Friend Request response", response)

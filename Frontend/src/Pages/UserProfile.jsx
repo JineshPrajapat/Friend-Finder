@@ -37,8 +37,7 @@ function UserProfile() {
   }
 
 
-  console.log("user", user);
-  console.log("mutual Friends",);
+  // console.log("user", user);
 
   return (
     <div className=" flex items-center justify-center bg-gray-100 p-4">
@@ -131,7 +130,9 @@ function UserProfile() {
           </div>
           : (
             <>
-              <button onClick={() => setShowInterestForm(!showInterestForm)} className='px-2 py-1 bg-blue-400 hover:cursor-pointer rounded-md mt-4' >Add Interest</button>
+              <button onClick={() => setShowInterestForm(!showInterestForm)} className={`px-2 py-1  hover:cursor-pointer rounded-md mt-4 ${showInterestForm ? "bg-slate-800 text-white" : "bg-blue-300"}`} >
+                {showInterestForm ? "Close" :"Add Interest"}
+                </button>
 
               {showInterestForm && <InterestForm />}
 

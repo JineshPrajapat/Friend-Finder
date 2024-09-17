@@ -9,8 +9,6 @@ import ScrollToTop from './hooks/ScrollToTop';
 
 function App() {
   const token = useSelector((state)=>state.user.token);
-  console.log("token", token);
-
   return (
     <div className="App">
 

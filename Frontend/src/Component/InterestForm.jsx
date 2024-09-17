@@ -23,9 +23,14 @@ function InterestForm() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (token) {
-            dispatch(getAllInterest(token)); 
-        }
+        
+        const intervalId = setInterval(() => {
+            if (token) {
+                dispatch(getAllInterest(token)); 
+            }
+          }, 2000);
+      
+          return () => clearInterval(intervalId);
     }, [])
 
     const handleSelectInterest = (interest) => {
@@ -43,7 +48,7 @@ function InterestForm() {
         dispatch(updateInterest(selectedInterests, token));
     };
 
-    console.log("interests form", interests);
+    // console.log("interests form", interests);
 
     return (
         <div className="p-4 bg-white shadow-md rounded-md">
@@ -56,7 +61,7 @@ function InterestForm() {
                     {interests?.map((interest, index) => (
                         <button
                             key={index}
-                            className={`px-4 py-2 rounded-md bg-gray-200 ${selectedInterests.includes(interest) ? 'bg-blue-400 text-white' : 'text-gray-700'}`}
+                            className={`px-4 py-2 rounded-md  ${selectedInterests.includes(interest) ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                             onClick={() => handleSelectInterest(interest)}
                         >
                             {interest}

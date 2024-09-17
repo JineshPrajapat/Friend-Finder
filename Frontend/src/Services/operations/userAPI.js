@@ -75,7 +75,6 @@ export function searchUsers(query) {
 
 export function getAllFriend(token) {
     return async (dispatch) => {
-        dispatch(setLoading(true));
         try {
             const response = await apiConnector({
                 method: "GET",
@@ -85,17 +84,16 @@ export function getAllFriend(token) {
                 },
             });
 
-            console.log("response", response);
+            // console.log("response", response);
             if (response.status === 200 && response.data.success) {
                 const result = response.data.friends;
                 dispatch(setFriends(result));
-                console.log("result", result);
+                // console.log("result", result);
             }
         }
         catch (err) {
             console.log("Network error or unknown error", err.message);
         }
-        dispatch(setLoading(false));
     }
 };
 
@@ -138,9 +136,9 @@ export function sendFriendRequest(recieverID, token) {
             });
 
             if (response.status === 200 && response.data.success) {
-                console.log("requeste added")
-                toast.success("Friend request sent.")
+                console.log("requeste added");
                 getAllUser(token);
+                toast.success("Friend request sent.")
             }
 
             console.log("sendFRiendRequest response", response)
@@ -309,10 +307,10 @@ export function unfollowFriend(opponentID, token) {
                 },
             });
             if (response.status === 200 && response.data.success) {
-                console.log("Unfollowed successfully");
+                // console.log("Unfollowed successfully");
                 toast.success("Unfollowed successfully");
             }
-            console.log("unfollow Friend Request response", response)
+            // console.log("unfollow Friend Request response", response)
         }
         catch (err) {
             console.log("Network error or unknown error", err.message);
@@ -341,7 +339,7 @@ export function getMutualFriends(opponentID, token) {
                 dispatch(setMutualFriends(result));
                 console.log("mutual friend successfully");
             }
-            console.log("mutual friend response", response)
+            // console.log("mutual friend response", response)
         }
         catch (err) {
             console.log("Network error or unknown error", err.message);
@@ -384,7 +382,7 @@ export function updateInterest(interests, token) {
 }
 
 export function getAllInterest(token) {
-    console.log("function invoked");
+    // console.log("function invoked");
     return async (dispatch) => {
         dispatch(setLoading(true));
         try {
@@ -397,11 +395,11 @@ export function getAllInterest(token) {
                 },
             });
 
-            console.log("response of interes", response)
+            // console.log("response of interes", response)
             if (response.status === 200 && response.data.success) {
                 let result = response.data.interests;
                 dispatch(setAllInterest(result));
-                console.log("interest fetched",result)
+                // console.log("interest fetched",result)
             }
         }
         catch (err) {
@@ -413,11 +411,10 @@ export function getAllInterest(token) {
 }
 
 export function getRecommendation(token){
-    console.log("function recommendation invoked");
+    // console.log("function recommendation invoked");
     return async (dispatch) => {
-        dispatch(setLoading(true));
+        // dispatch(setLoading(true));
         try {
-            dispatch(setRecommendation(null));
             const response = await apiConnector({
                 method: "GET",
                 url: GET_RECOMMENDATION_API,
@@ -426,17 +423,17 @@ export function getRecommendation(token){
                 },
             });
 
-            console.log("response of recommendation", response)
+            // console.log("response of recommendation", response)
             if (response.status === 200 && response.data.success) {
                 let result = response.data.recommendation;
                 dispatch(setRecommendation(result));
-                console.log("recommendation fetched",result)
+                // console.log("recommendation fetched",result)
             }
         }
         catch (err) {
             console.log("Network error or unknown error", err);
             toast.error("Network error, try again");
         }
-        dispatch(setLoading(false));
+        // dispatch(setLoading(false));
     }
 }

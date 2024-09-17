@@ -10,7 +10,11 @@ function Recommendation() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getRecommendation(token));
+    const intervalId = setInterval(() => {
+      dispatch(getRecommendation(token));
+    }, 2000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleAddFriend = (recieverID) => {
@@ -29,7 +33,7 @@ function Recommendation() {
     dispatch(unfollowFriend(opponentID, token));
   }
 
-  console.log("getRecommendation", recommendation)
+  // console.log("getRecommendation", recommendation)
 
   return (
     <section className="bg-white p-4 rounded-lg shadow-md lg:col-span-2">
@@ -38,7 +42,7 @@ function Recommendation() {
 
         {recommendation?.length > 0 ? (
           recommendation?.map((user, index) => {
-            console.log("user", user)
+            // console.log("user", user)
             return (
               <UserCard
                 key={index}

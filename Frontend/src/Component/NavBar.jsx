@@ -12,7 +12,6 @@ const navLink = [
 function Navbar() {
     const location = useLocation();
     const pathName = location.pathname;
-    console.log(pathName);
     return (
         <nav className="flex justify-around mb-4 border-b border-gray-200 overflow-hidden overflow-x-auto">
             {navLink && navLink.map((link, index) => {

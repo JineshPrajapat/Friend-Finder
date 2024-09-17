@@ -13,8 +13,12 @@ function AllUsers() {
     const location = useLocation();
 
     useEffect(() => {
-        dispatch(getAllUser(token));
-    }, [dispatch]);
+        const intervalId = setInterval(() => {
+            dispatch(getAllUser(token));
+        }, 2000);
+        
+        return () => clearInterval(intervalId);
+    }, []);
 
     const handleAddFriend = (recieverID) => {
         dispatch(sendFriendRequest(recieverID, token));
@@ -34,8 +38,6 @@ function AllUsers() {
 
     const isHomePage = location.pathname === "/";
     const displayedUsers = isHomePage ? allUser.slice(0, 10) : allUser;
-    console.log("displayedUsers", displayedUsers)
-
     return (
         <section className="mt-6 bg-white p-4 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-4">All Users</h2>
@@ -59,7 +61,7 @@ function AllUsers() {
                         </p>
                     )}
 
-                {isHomePage && displayedUsers.length>10 && (
+                {isHomePage && displayedUsers?.length >= 10 && (
                     <div className="flex items-center justify-center">
                         <NavLink
                             to="/allUser"

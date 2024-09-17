@@ -12,14 +12,18 @@ function RequestSent() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllRequestSent(token));
+    const intervalId = setInterval(() => {
+      dispatch(getAllRequestSent(token));
+    }, 2000);
+
+    return () => clearInterval(intervalId);
   }, [dispatch]);
 
   const handleWithDrawRequest = (recieverID) => {
     dispatch(withdrawRequest(recieverID, token));
   }
 
-  console.log("request sent", requestSent)
+  // console.log("request sent", requestSent)
 
   return (
     <section className="bg-white md:p-4 rounded-lg shadow-md">

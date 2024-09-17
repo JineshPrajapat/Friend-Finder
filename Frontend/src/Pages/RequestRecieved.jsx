@@ -12,7 +12,11 @@ function RequestReceived() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllRequestRecieved(token));
+    const intervalId = setInterval(() => {
+      dispatch(getAllRequestRecieved(token));
+    }, 2000);
+
+    return () => clearInterval(intervalId);
   }, [dispatch]);
 
   const handleAcceptRequest = (senderID) => {
@@ -23,7 +27,7 @@ function RequestReceived() {
     dispatch(rejectFriendRequest(senderID, token));
   }
 
-  console.log("request recieved", requestReceived);
+  // console.log("request recieved", requestReceived);
 
   return (
     <section className="bg-white md:p-4 rounded-lg shadow-md">

@@ -9,14 +9,20 @@ import PreLoader from '../Component/PreLoader';
 
 function Friend() {
     const friends = useSelector((state) => state.friend.friends);
-    const isLoading = useSelector((state) => state.user.loading);
+    const isLoading = false;
     const token = useSelector((state) => state.user.token);
     const location = useLocation();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllFriend(token));
-    }, [dispatch]);
+        const intervalId = setInterval(() => {
+            dispatch(getAllFriend(token));
+        }, 2000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+
 
     const handleUnfollow = (opponentID) => {
         dispatch(unfollowFriend(opponentID, token));
@@ -24,8 +30,7 @@ function Friend() {
 
     const isHomePage = location.pathname === "/";
     const displayedFriends = isHomePage ? friends.slice(0, 10) : friends;
-
-    console.log(friends);
+    // console.log(friends);
 
     return (
         <section className="bg-white md:p-4 rounded-lg shadow-md">
@@ -51,7 +56,7 @@ function Friend() {
                         }) : (
                             <p>No friends exist.<br /><br /> Discover and create Friends!</p>
                         )}
-                        {displayedFriends.length > 10 && isHomePage && (
+                        {displayedFriends?.length >= 10 && isHomePage && (
                             <div className="flex items-center justify-center">
                                 <NavLink
                                     to="/Friends"

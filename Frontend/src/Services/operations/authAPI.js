@@ -24,12 +24,12 @@ export function Signup(username, fullName, password, confirmPassword, navigate) 
             console.log("signup response", response)
             
             if (response.status === 200 && response.data.success) {
-                toast.success("Registered Successfully");
                 console.log("Registered Successfully");
                 localStorage.setItem("token", response?.data?.token);
                 localStorage.setItem("user",JSON.stringify(response.data.payload) )
                 dispatch(setToken(response.data.token));
                 dispatch(setUserDetails(response.data.payload));
+                toast.success("Registered Successfully");
             }
 
         } catch (err) {
@@ -48,10 +48,11 @@ export function Signup(username, fullName, password, confirmPassword, navigate) 
                     toast.info("Password does not match")
                 } else {
                     console.log("Error occurred:", message || "Something went wrong");
-                    toast.info("Network error")
+                    toast.error("Network error")
                 }
             } else {
                 console.log("Network error or unknown error", err.message);
+                toast.error("Network error")
             }
         }
         dispatch(setLoading(false));
@@ -86,21 +87,26 @@ export function Login(username, password){
         catch(err){
             if(err.response){
                 if(err.status === 403){
-                    console.log("All fields are required.")
+                    console.log("All fields are required.");
+                    toast.info("All fields are required.")
                 }
                 else if(err.status === 402){
-                    console.log("Password do not match.");
+                    console.log("Password incorrect.");
+                    toast.error("Username or password id incorrect");
                 }
                 else if(err.status === 401){
                     console.log("User not registered!");
+                    toast.info("User not registerd, please Signup.")
                     window.location.url = "/";
                 }
                 else{
                     console.log("Error occurred:", err )
+                    toast.error("Network error, try again");
                 }
             }
             else{
                 console.log("Network error or unknown error", err.message);
+                toast.error("Network error, try again");
             }
         }
         dispatch(setLoading(false));
@@ -113,5 +119,6 @@ export function logout(navigate){
         dispatch(setUserDetails(null));
         localStorage.clear();
         navigate("/");
+        toast.success("Logout Successfully.");
     }
 }

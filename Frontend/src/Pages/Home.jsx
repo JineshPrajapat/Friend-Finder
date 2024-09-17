@@ -9,15 +9,17 @@ import Navbar from '../Component/NavBar';
 import { Routes, Route } from 'react-router-dom';
 import UserProfile from './UserProfile';
 import AllUsers from './AllUsers';
+import PreLoader from '../Component/PreLoader';
+import { useSelector } from 'react-redux';
 
 function HomePage() {
-  const [activeTab, setActiveTab] = useState('friends'); // Track the active tab
+  const [activeTab, setActiveTab] = useState('friends');
 
   return (
     <div className="min-h-screen bg-gray-100 md:p-2">
       <Header/>
-      {/* Tab Navigation */}
-      <div className="mt-2 bg-white rounded-lg shadow-md p-4">
+
+      <div className="mt-2 bg-white rounded-lg shadow-md p-4 ">
         <Navbar/>
         <Routes>
             <Route path="/" element={<DashBoard/>}/>

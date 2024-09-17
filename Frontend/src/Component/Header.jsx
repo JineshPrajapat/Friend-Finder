@@ -65,7 +65,7 @@ function Header() {
 
 
 
-        <div className='flex flex-col gap-2 items-center' title={user.fullName} onClick={()=>setShowDropDown(!showDropDown)}>
+        <div className='flex flex-col gap-2 items-center cursor-pointer' title={user.fullName} onClick={()=>setShowDropDown(!showDropDown)}>
           <div className='w-8 h-8 lg:w-12 lg:h-12 rounded-full bg-black'>
             <img className='w-full h-full rounded-full' src={user?.profileImage} alt={"profileImage"} />
           </div>

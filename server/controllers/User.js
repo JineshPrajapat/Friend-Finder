@@ -60,8 +60,9 @@ exports.searchUser = async (req, res) => {
         const { query } = req.query;
 
         if (!query) {
-            const allUsers = await User.find({ 
-                _id: { $ne: req.user.id } }
+            const allUsers = await User.find({
+                _id: { $ne: req.user.id }
+            }
             ).select('_id username fullName profileImage interest');
             return res.status(400).json({
                 success: true,
@@ -154,21 +155,21 @@ exports.requestSended = async (req, res) => {
 
 exports.mutualFriends = async (req, res) => {
     const userID = req.user.id;
-    const {opponentID} = req.query;
+    const { opponentID } = req.query;
     try {
         const user = await User.findById(userID).populate('friends', '_id fullName username profileImage');
         const opponent = await User.findById(opponentID).populate('friends', '_id fullName username profileImage');
 
         if (!user || !opponent) {
-            return res.status(404).json({ 
-                success:false,
-                message: "One or both users not found." 
+            return res.status(404).json({
+                success: false,
+                message: "One or both users not found."
             });
         }
 
         const userFriends = user.friends.map(friend => friend._id.toString());
         const opponentFriends = opponent.friends.map(friend => friend._id.toString());
-        
+
         // mutual freind IDs
         const mutualFriendsIds = findMutualFriends(userFriends, opponentFriends);
 
@@ -355,6 +356,101 @@ exports.withdrawRequest = async (req, res) => {
         return res.status(500).json({
             success: false,
             message: "Internal error"
+        });
+    }
+}
+
+
+
+exports.updateInterest = async (req, res) => {
+    const userID = req.user.id;
+    const { interests } = req.body;
+    console.log("interests", interests)
+    try {
+        const user = await User.findById(userID);
+        if (!user) {
+            return res.status(404).json({ 
+                success:false,
+                message: 'User not found' 
+            });
+        }
+
+        const uniqueInterests = [...new Set([...user.interest, ...interests])];
+        user.interest = uniqueInterests;
+        await user.save();
+
+        return res.status(200).json({
+            success:true,
+            message :"Interest updated"
+        })
+
+    }
+    catch (error) {
+        res.status(500).json({
+            message: 'Error updating interests',
+            error
+        });
+    }
+}
+
+
+exports.getAllInterest = async(req,res)=>{
+    const interests = [
+        'Coding',
+        'Reading Books',
+        'Machine Learning',
+        'Travelling',
+        'Music',
+        'Sports',
+        'Photography',
+        'Gaming',
+        'Cooking',
+        'Writing',
+        'Movies',
+        'Fitness',
+      ];
+    
+      res.status(200).json({
+        success:true,
+        message:"Interest Fetched successfully",
+        interests
+      });
+}
+
+exports.getRecommendation = async(req,res)=>{
+    const userID = req.user.id;
+    try {
+        const userInterest = await User.findById(userID);
+        console.log("recommendation", userInterest)
+        if (!userInterest?.interest) {
+            return res.status(404).json({ 
+                success:false,
+                message: 'Non interst exist' 
+            });
+        }
+
+        const recommendation = await User.find({
+            interest: { $in: userInterest?.interest },  // Match users with similar interests
+            _id: { 
+                $nin: userInterest?.friends,    // Exclude users who are already in the user's friends list
+                $ne: userInterest?._id          // Exclude the user themselves
+            }
+        });
+
+
+        console.log("recommendation", recommendation);
+
+        return res.status(200).json({
+            success:true,
+            message :"Interest updated",
+            recommendation
+        })
+
+    }
+    catch (error) {
+        res.status(500).json({
+            message: 'recommendation failed',
+            error
         });
     }
 }

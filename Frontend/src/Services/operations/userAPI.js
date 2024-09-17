@@ -1,7 +1,7 @@
 import { apiConnector } from "../apiConnector";
 import { userEndPoints } from "../api";
-import { setAllUsers, setFriends, setMutualFriends, setRequestRecieved, setRequestSent } from "../../Reducer/Slice/FriendSlice";
-import { setLoading, setUserDetails } from "../../Reducer/Slice/userSlice";
+import { setAllInterest, setAllUsers, setFriends, setMutualFriends, setRequestRecieved, setRequestSent } from "../../Reducer/Slice/FriendSlice";
+import { setLoading, setRecommendation, setUserDetails } from "../../Reducer/Slice/userSlice";
 import { toast } from "react-toastify";
 
 const { GET_FRIEND_LIST_API,
@@ -15,7 +15,10 @@ const { GET_FRIEND_LIST_API,
     PUT_UNFOLLOW_API,
     GET_USER_DETAILS_API,
     SEARCH_USER_API,
-    GET_MUTUAL_FRIEND_API
+    GET_MUTUAL_FRIEND_API,
+    PUT_ADD_INTEREST_API,
+    GET_ALL_INTEREST_API,
+    GET_RECOMMENDATION_API
 } = userEndPoints;
 
 const token = localStorage.getItem("token");
@@ -24,6 +27,7 @@ export function getUserData(userID, token) {
     return async (dispatch) => {
         dispatch(setLoading(true));
         try {
+            dispatch(setUserDetails(null));
             const response = await apiConnector({
                 method: "GET",
                 url: GET_USER_DETAILS_API,
@@ -317,20 +321,21 @@ export function unfollowFriend(opponentID, token) {
     }
 }
 
-export function getMutualFriends(opponentID,token) {
+export function getMutualFriends(opponentID, token) {
     return async (dispatch) => {
         dispatch(setLoading(true));
         try {
+            dispatch(setMutualFriends(null));
             const response = await apiConnector({
                 method: "GET",
                 url: GET_MUTUAL_FRIEND_API,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                params:{opponentID : opponentID}
+                params: { opponentID: opponentID }
             });
             if (response.status === 200 && response.data.success) {
-                let result  = response.data.mutualFriends
+                let result = response.data.mutualFriends
                 dispatch(setMutualFriends(result));
                 console.log("mutual friend successfully");
             }
@@ -344,3 +349,92 @@ export function getMutualFriends(opponentID,token) {
     }
 }
 
+
+export function updateInterest(interests, token) {
+    return async (dispatch) => {
+        dispatch(setLoading(true));
+        try {
+            console.log("update interest", interests);
+            const response = await apiConnector({
+                method: "PUT",
+                url: PUT_ADD_INTEREST_API,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                bodyData: { interests }
+            });
+
+            
+
+            if (response.status === 200 && response.data.success) {
+                toast.success("Interests updated successfully")
+                console.log("Interests updated successfully");
+            }
+            
+        }
+        catch (err) {
+            console.log("Network error or unknown error", err.message);
+            toast.error("Network error, try again.")
+
+        }
+        dispatch(setLoading(false));
+    }
+}
+
+export function getAllInterest(token) {
+    console.log("function invoked");
+    return async (dispatch) => {
+        dispatch(setLoading(true));
+        try {
+            dispatch(setAllInterest(null));
+            const response = await apiConnector({
+                method: "GET",
+                url: GET_ALL_INTEREST_API,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log("response of interes", response)
+            if (response.status === 200 && response.data.success) {
+                let result = response.data.interests;
+                dispatch(setAllInterest(result));
+                console.log("interest fetched",result)
+            }
+        }
+        catch (err) {
+            console.log("Network error or unknown error", err.message);
+            toast.error("Network error, try again");
+        }
+        dispatch(setLoading(false));
+    }
+}
+
+export function getRecommendation(token){
+    console.log("function recommendation invoked");
+    return async (dispatch) => {
+        dispatch(setLoading(true));
+        try {
+            dispatch(setRecommendation(null));
+            const response = await apiConnector({
+                method: "GET",
+                url: GET_RECOMMENDATION_API,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log("response of recommendation", response)
+            if (response.status === 200 && response.data.success) {
+                let result = response.data.recommendation;
+                dispatch(setRecommendation(result));
+                console.log("recommendation fetched",result)
+            }
+        }
+        catch (err) {
+            console.log("Network error or unknown error", err);
+            toast.error("Network error, try again");
+        }
+        dispatch(setLoading(false));
+    }
+}

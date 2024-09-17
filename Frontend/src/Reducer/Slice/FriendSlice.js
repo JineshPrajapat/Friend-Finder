@@ -8,7 +8,8 @@ const friendSlice = createSlice({
         friends : [],
         requestRecieved : [],
         requestSent: [],
-        mutualFriends : []
+        mutualFriends : [],
+        allInterest:[]
     },
 
     reducers:{
@@ -26,11 +27,14 @@ const friendSlice = createSlice({
         },
         setMutualFriends(state, action){
             state.mutualFriends = action.payload;
+        },
+        setAllInterest(state, action){
+            state.allInterest = action.payload;
         }
 
         
     }
 });
 
-export const {setAllUsers, setFriends, setRequestRecieved, setRequestSent, setMutualFriends} = friendSlice.actions;
+export const {setAllUsers, setFriends, setRequestRecieved, setRequestSent, setMutualFriends, setAllInterest} = friendSlice.actions;
 export default friendSlice.reducer;

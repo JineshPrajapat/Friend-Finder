@@ -21,14 +21,10 @@ export const userEndPoints = {
     PUT_FRIEND_REQUEST_ACCEPT_API : BASE_URL + "/user/acceptFriendRequest",
     PUT_FRIEND_REQUEST_REJECT_API : BASE_URL + "/user/rejectFriendRequest",
     PUT_UNFOLLOW_API : BASE_URL + "/user/unfollow",
+    PUT_ADD_INTEREST_API : BASE_URL +"/user/updateInterest",
 
     GET_MUTUAL_FRIEND_API : BASE_URL + "/user/mutualFriends",
+    GET_ALL_INTEREST_API : BASE_URL + "/user/getAllInterest",
+    GET_RECOMMENDATION_API : BASE_URL + "/user/getRecommendation",
 
-}
-
-// COMMON ENDPOINTS
-export const common = {
-    
-    
-    GET_RECOMMENDATION_API : BASE_URL + "/user/recommendation"
 }

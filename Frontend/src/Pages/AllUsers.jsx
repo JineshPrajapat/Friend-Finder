@@ -34,26 +34,32 @@ function AllUsers() {
 
     const isHomePage = location.pathname === "/";
     const displayedUsers = isHomePage ? allUser.slice(0, 10) : allUser;
-    console.log("displayedUsers",displayedUsers)
+    console.log("displayedUsers", displayedUsers)
 
     return (
         <section className="mt-6 bg-white p-4 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-4">All Users</h2>
             <div className={` ${isHomePage ? "flex flex-row gap-3 overflow-hidden overflow-x-auto whitespace-nowrap" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"}`} >
-                {displayedUsers &&
-                    displayedUsers?.map((user, index) => (
-                        <UserCard
-                            key={index}
-                            user={user}
-                            currentUserID={currentUserID}
-                            handleAddFriend={handleAddFriend}
-                            handleWithDrawRequest={handleWithDrawRequest}
-                            handleAcceptRequest={handleAcceptRequest}
-                            handleUnfollow={handleUnfollow}
-                        />
-                    ))}
+                {displayedUsers.length>0 ?
+                    (
+                        displayedUsers?.map((user, index) => (
+                            <UserCard
+                                key={index}
+                                user={user}
+                                currentUserID={currentUserID}
+                                handleAddFriend={handleAddFriend}
+                                handleWithDrawRequest={handleWithDrawRequest}
+                                handleAcceptRequest={handleAcceptRequest}
+                                handleUnfollow={handleUnfollow}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-xl flex items-center justify-center">
+                            No friends found.
+                        </p>
+                    )}
 
-                {isHomePage && (
+                {isHomePage && displayedUsers.length>10 && (
                     <div className="flex items-center justify-center">
                         <NavLink
                             to="/allUser"

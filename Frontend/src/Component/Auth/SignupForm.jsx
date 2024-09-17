@@ -51,8 +51,8 @@ function SignupForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+    <div className="h-[84vh] flex items-center justify-center md:bg-gray-100">
+      <form onSubmit={handleSubmit} className="bg-gray-100 md:bg-white p-3 md:p-6 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-6 text-gray-800">Sign Up</h2>
 
         {error && <div className="text-red-500 mb-4">{error}</div>}

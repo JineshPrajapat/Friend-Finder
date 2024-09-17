@@ -5,6 +5,7 @@ import SignupForm from "./Component/Auth/SignupForm";
 import LoginForm from "./Component/Auth/LoginForm";
 import { useSelector } from 'react-redux';
 import LandingPage from './Pages/Landing';
+import ScrollToTop from './hooks/ScrollToTop';
 
 function App() {
   const token = useSelector((state)=>state.user.token);
@@ -20,6 +21,7 @@ function App() {
           <Home />
         </>
       )}
+      <ScrollToTop/>
     </div>
   );
 }

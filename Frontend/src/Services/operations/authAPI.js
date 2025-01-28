@@ -72,7 +72,7 @@ export function Login(username, password){
                 }
             });
 
-            console.log("Login response", response);
+            console.log("res", response);
 
             if (response.status === 200 && response.data.success) {
                 console.log("Login Successfully", response.data.token,response.data.payload  );
@@ -80,7 +80,7 @@ export function Login(username, password){
                 localStorage.setItem("user",JSON.stringify(response.data.payload) )
                 dispatch(setToken(response.data.token));
                 dispatch(setUserDetails(response.data.payload));
-
+                window.location.reload();
                 toast.success("Login Successfully")
             }
         }

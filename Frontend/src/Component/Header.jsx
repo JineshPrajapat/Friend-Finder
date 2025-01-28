@@ -43,7 +43,7 @@ function Header() {
 
   return (
     <header className="sticky top-0 flex justify-between items-center bg-white px-1 py-3 md:p-4 rounded-lg shadow-md">
-      <h1 className="text-xs lg:text-2xl font-semibold text-gray-800">Friend Finder</h1>
+      <h1 className="text-xs lg:text-2xl font-semibold text-gray-800">Friend Cirlce</h1>
 
       {/* Search Bar */}
       <div className="flex flex-row items-center gap-3 relative">
